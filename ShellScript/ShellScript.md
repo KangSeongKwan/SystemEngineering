@@ -8,7 +8,7 @@
 
 # 2. 기본 문법
 - Linux 내부의 에디터를 사용해서 편집한다. 일반적으로 sh 확장자를 사용한다.
-- 파일 내부에 시작 시 #!/bin/bash를 추가하여 셸 스크립트임을 명시해야 한다.
+- 파일 내부에 시작 시 #!/bin/bash를 추가하여 bash셸 스크립트임을 명시해야 한다.
 - 다음과 같은 예시 소스를 작성한다. 
 ![image](https://user-images.githubusercontent.com/99636945/214746507-cdc415bf-8fb9-46a7-a96a-fc49bd754a38.png)
 - 실행하는 방법은 sh명령어, chmod로 권한 조정, 명령어와 함께 실행과 같이 3가지가 있다.
@@ -25,15 +25,68 @@
 # 3. 기본 문법 확장
 ### 3-1. 변수 사용하기
 - 변수 타입을 선언하지 않고 [변수명 = 변수값] 형식으로 선언하면 된다.
-- 쉘 스크립트에서 선언한 변수를 사용할때는 $[변수명]을 사용한다.
+- 쉘 스크립트에서 선언한 변수를 사용할때는 $변수명 또는 ${변수명}(시스템의 변수명 인식 용이성을 위함)을 사용한다.
 - 예를 들어 language = "Korea English Japan"으로 변수 선언 후 mkdir $language라고 입력하면 디렉터리 3개가 생성되는 방식이다.
 ### 3-2. 변수의 종류
-- 단순 선언 변수, 함수 내부에서만 사용하는 변수, 함수 밖에서도 사용이 가능한 변수 등이 있다, 
+- 단순 선언 변수, 함수 내부에서만 사용하는 변수, 함수 밖에서도 사용이 가능한 변수 등이 있다.
 - 그 외에 파라미터로 넘길 때 사용하는 변수를 예약변수 혹은 환경 변수라고 부른다.
 - 쉘 스크립트에서 함수를 만들때는 function 함수명() { 내용 } 으로 정의한다.
 - 함수 밖에서 선언하는 전역변수, 함수 내부에 선언하는 지역 변수(변수 앞에 local을 붙여줘야 한다.), 예약 변수 및 환경 변수등이 있다.
 - 예약 변수 및 환경 변수의 종류는 다음과 같다.  
 ![image](https://user-images.githubusercontent.com/99636945/214755408-e0245fa7-5b49-4768-8182-cc8a9236bf27.png)
 - 예약 변수나 환경 변수는 프롬프트에서 echo "$[환경변수명]"을 사용하여 값을 확인할 수 있다.
+- 위치 매개변수를 포함한 특수 매개변수는 다음과 같다.  
+![image](https://user-images.githubusercontent.com/99636945/214765456-5c5d1a83-1c85-4154-9fc0-7eb5ffb77c2c.png)
+- 추가로 아래와 같은 것도 있다.(자주 쓰지 않는 것으로 추정됨)  
+![image](https://user-images.githubusercontent.com/99636945/214768544-c15c6e86-140b-4fba-8119-e33027e3429c.png)
+### 3-3. 변수 초기화 확장자
+- 개발을 하다보면 특정함수를 호출하거나 쉘 스크립트를 실행할 때 함께 넘겨받는 파라미터에 의해 변수의 값을 초기화 하는 경우, 
+변수가 선언된 위치에서 변수의 값을 설정해서 사용하는 경우가 많음.
+- 쉘 스크립트는 변수 초기화를 위한 확장자를 지원한다.
+- 아래 표에서 :는 Null 값을 의미하고, :-는 null이 아닌것, :=는 null인 것을 의미한다.
+![image](https://user-images.githubusercontent.com/99636945/214769644-c9bf2db3-48c5-46fb-b032-8ddb20d5d3ca.png)
+- +와 ?도 변수 초기화 확장자에서 사용할 수 있는 연산자이다.
+![image](https://user-images.githubusercontent.com/99636945/214770111-f3802358-fd89-4d39-9cdb-829260d930dc.png)
+- 또한 다른 프로그래밍 언어처럼 문자열 슬라이싱이 가능하다.(인덱스는 0부터 시작하며 Python과 방식이 유사한 편)  
+![image](https://user-images.githubusercontent.com/99636945/214770198-50943703-2dae-4228-a1dc-50bb0d5c11d0.png)
+### 3-4. 문자열 값 변경 확장자
+- 변수의 값이 문자열일 경우 사용할 수 있는 확장자이며, 사용하면 값을 변경할 수 있다. 
+- #은 전방 탐색을 의미하고, %는 후방 탐색을 의미한다.
+![image](https://user-images.githubusercontent.com/99636945/214771581-b692464b-4885-4d9e-bbf2-2360a668bb32.png)
+- 문자열의 길이를 알고싶을 땐 다음을 사용한다.  
+![image](https://user-images.githubusercontent.com/99636945/214771775-c0e13d09-b574-4eba-a317-8ff8d44e527c.png)
+- #과 %은 해당되는 부분을 완전히 지워버렸다면, /을 같이 사용하면 문자열을 교체하는 동작을 한다.(new가 비어있다면 역시나 문자열을 제거하는 동작을 한다.)
+- //은 문자열 전체에서 패턴과 일치하는 문자열을 교환하는 동작을 한다.
+![image](https://user-images.githubusercontent.com/99636945/214771927-0375c86c-6db9-4450-b8e2-f0b68b34d3d5.png)
+
+# 4. 조건문
+- 셀 스크립트 뿐만이 아니라 개발할 때 가장 많이 쓰이는 기본 문법 중 하나
+- if는 정말 많이 사용되며, switch-case문도 사용할 수 있음
+### 4-1. if문
+- 다른 언어와는 형식이 좀 많이 다르다.(개인적으로는 기괴하다고 생각함)  
+![image](https://user-images.githubusercontent.com/99636945/214772817-069c4f6b-8a8c-4ecc-b7ff-9191abf01056.png)
+- if의 기본 형식은 위와 같고, if이후 elif를 사용하더라도 위의 형식과 똑같다.(if와 elif만 다름)
+- 조건을 만족시키지 못해 아무것도 할 수 없을 경우, else문으로 진입하게 해줘야 한다.
+![image](https://user-images.githubusercontent.com/99636945/214773040-3ef6dae5-a2bf-464e-ac2b-7fb6ef2999a5.png)
+- 비교구문에 사용되는 형식은 다음과 같다.  
+![image](https://user-images.githubusercontent.com/99636945/214773390-2d617f44-bc43-41fd-9a1a-0fbb596ec571.png)
+![image](https://user-images.githubusercontent.com/99636945/214773464-5130884d-f6e9-47c1-9169-0aaf6bcd3c69.png)
+- 그 외의 파일 관련 연산자가 존재한다.
+- -L [파일이름]: 변수 유형이 파일이면서 심볼릭 링크이면 참
+- -O [파일이름]: 변수 유형이 파일이거나 디렉터리
+### 4-2. switch-case문
+- 쉘 스크립트에서는 기괴하게도 case ~ esac 로 표현되는게 switch-case문이다.
+- 사용 예시는 다음과 같다.
+![image](https://user-images.githubusercontent.com/99636945/214778527-43b15125-fa16-4e15-890c-8f3c7e361b0b.png)
+
+
+
+
+
+
+
+
+
+
 
 
