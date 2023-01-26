@@ -76,7 +76,7 @@
 - -O [파일이름]: 변수 유형이 파일이거나 디렉터리
 ### 4-2. switch-case문
 - 쉘 스크립트에서는 기괴하게도 case ~ esac 로 표현되는게 switch-case문이다.
-- 사용 예시는 다음과 같다.
+- 사용 예시는 다음과 같다.  
 ![image](https://user-images.githubusercontent.com/99636945/214778527-43b15125-fa16-4e15-890c-8f3c7e361b0b.png)
 
 
