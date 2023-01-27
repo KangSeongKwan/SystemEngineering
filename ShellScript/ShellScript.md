@@ -9,7 +9,7 @@
 # 2. 기본 문법
 - Linux 내부의 에디터를 사용해서 편집한다. 일반적으로 sh 확장자를 사용한다.
 - 파일 내부에 시작 시 #!/bin/bash를 추가하여 bash셸 스크립트임을 명시해야 한다.
-- 다음과 같은 예시 소스를 작성한다. 
+- 다음과 같은 예시 소스를 작성한다.  
 ![image](https://user-images.githubusercontent.com/99636945/214746507-cdc415bf-8fb9-46a7-a96a-fc49bd754a38.png)
 - 실행하는 방법은 sh명령어, chmod로 권한 조정, 명령어와 함께 실행과 같이 3가지가 있다.
 ### 2-1. sh 명령어
@@ -76,8 +76,57 @@
 - -O [파일이름]: 변수 유형이 파일이거나 디렉터리
 ### 4-2. switch-case문
 - 쉘 스크립트에서는 기괴하게도 case ~ esac 로 표현되는게 switch-case문이다.
-- 사용 예시는 다음과 같다.  
+- 기본 형태는 다음과 같다.  
 ![image](https://user-images.githubusercontent.com/99636945/214778527-43b15125-fa16-4e15-890c-8f3c7e361b0b.png)
+
+# 5. 반복문
+### 5-1. for문
+- 리스트나 배열같이 다수의 값을 이용하여 동일한 작업을 처리할 경우에 주로 사용
+- 쉘 스크립트에서는 두 가지 방법으로 이용할 수 있도록 제공된다.
+- 첫 번째 방법은 파이썬처럼 in을 사용하여 리스트 및 배열, 특정 범위의 값들을 범위로 지정하여 반복을 수행하며 가장 많이 사용하는 방법이다.    
+![image](https://user-images.githubusercontent.com/99636945/215002600-6c60cf70-10ee-413f-8a6d-8e2027728712.png)
+- 두 번째 방법은 java 또는 C언어 처럼 초기값을 증가시켜 수행문을 계속 반복하는 방식이다.
+- 아래 예제에서 괄호안에 아무것도 적지않으면 무한루프 반복문을 만들 수도 있다.  
+![image](https://user-images.githubusercontent.com/99636945/215002778-92dbad48-7a24-4a52-bdbe-74eb496f3b4a.png)
+- 쉘 스크립트는 문자 또는 배열의 원소를 띄어쓰기를 통해 구분하도록 한다.
+- 사용 예제는 아래 몇 가지 사례를 통해 파악한다.  
+![image](https://user-images.githubusercontent.com/99636945/215003091-daed40db-a984-4254-97dd-31aa12e02600.png)  
+![image](https://user-images.githubusercontent.com/99636945/215003177-e7c7ff9d-9fef-48b3-bdcf-b46b549135cd.png)  
+![image](https://user-images.githubusercontent.com/99636945/215003219-1fd8b459-2051-4871-886c-7a0f4c9cdea9.png)  
+![image](https://user-images.githubusercontent.com/99636945/215003369-1db99b25-4776-4ea8-9323-56c83fa48242.png)  
+![image](https://user-images.githubusercontent.com/99636945/215004040-eb27e050-78b7-41de-af4c-985065b26d6f.png)
+### 5-2. while문
+- 조건식을 바로 사용하고 조건에 맞을 때 까지 계속 반복함
+- 기본 형식은 다음과 같다.  
+![image](https://user-images.githubusercontent.com/99636945/215004520-16549a6f-cfe3-491c-99cb-489b132290f0.png)
+- 조건, 반복문에서 사용할 수 있는 디테일한 조건 및 비교 연산자들은 다음과 같다.  
+![image](https://user-images.githubusercontent.com/99636945/215004780-77065451-d9fe-4aa6-8780-c3bd2af329ad.png)
+- 비교 연산자들 중에서도 >, >=같은 기호 연산자를 사용할 수 있는데, 그럴때는 if (( $변수1 >= $변수2 )) 처럼 중첩소괄호를 사용해야 한다.
+
+# 6. 연산자
+- 위에서 언급된 여러 연산자들을 제외하고, 문자 비교 연산자, 논리 연산자 등이 있다.
+- 문자열 비교 연산자는 문자형 연산자가 아닌 기호 연산자를 사용하고 중첩 대괄호를 사용해주면 된다.(리눅스의 리다이렉션 기호와 헷갈리지 않도록 시스템에 명시하기 위함)  
+![image](https://user-images.githubusercontent.com/99636945/215019117-0884102b-3408-46ec-8f75-0e81b404d55c.png)
+- 논리 연산자는 프로그래밍 언어와 비슷한 형태를 띄며 다음과 같이 사용한다.  
+![image](https://user-images.githubusercontent.com/99636945/215021064-845c1391-0e6c-47c6-a1d7-0407373a2ba1.png)
+
+# 7. 정규 표현식
+- 리눅스나 유닉스에 특별한 특징을 부여하는 문자들과 메타 문자들의 집합
+- 텍스트 탐색, 문자열 조작에 쓰이고 하나의 문자와 일치하거나 혹은 문자열의 일부분이나 전체 문자열 중 특정 문자 집합을 표현할 때 사용된다.
+### 7-1. POSIX
+- 정규 표현식은 일치하는 텍스트를 찾기 위한 패턴을 표현하기 위해 사용되는 특정 표준 텍스트의 문법을 의미함.
+- 패턴을 기술하는 문자열 내의 각 문자들은 메타문자나 정규 문자로 이해된다. 메타문자의 종류들은 다음과 같다.  
+![image](https://user-images.githubusercontent.com/99636945/215024580-b28f454e-b5c7-4faf-af62-d8db56f7ebe9.png)  
+![image](https://user-images.githubusercontent.com/99636945/215024669-a8b81a14-200f-486a-a76c-8d61d222e5ca.png)  
+![image](https://user-images.githubusercontent.com/99636945/215024767-f955631b-a510-4c17-bf13-efdcdb2c81c5.png)
+- 메타문자 외에도 POSIX(이식 가능 운영체제 인터페이스)로 정의된 문자 클래스를 정규 표현식에서 사용하기도 한다.
+- POSIX란 서로 다른 UNIX OS의 공통 API를 정리하여 이식성 높은 유닉스 응용 프로그램을 개발하기 위한 목적으로 IEEE가 책정한 애플리케이션 인터페이스 규격이다.
+- POSIX 규격에선 다음과 같은 문자 클래스를 지원하며 알파벳 대소문자, 숫자, 특수문자가 있다.  
+![image](https://user-images.githubusercontent.com/99636945/215025191-124d1b3d-4cfe-4623-b90b-6586b7ab9ba3.png)
+- POSIX 사용 예시는 grep 'X[[:upper]][[:digit]]' list.txt 같이 사용하여 list.txt 내부의 X로 시작하는 대소문자, 숫자를 모두 찾는 행위를 할 수 있다.
+
+
+
 
 
 
